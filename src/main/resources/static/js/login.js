@@ -101,12 +101,14 @@ $("#submit_button").click(function () {
     $("#myiframe").one("load", function () {
         var text = $(this).contents().find("body").text(); //获取到的是json的字符串
         // var j = $.parseJSON(text);  //json字符串转换成json对象
-        alert(text)
+
         var res_json=JSON.parse(text)
+        // alert(res_json["status"])
             if (res_json["status"] === 1) {
                 // alert(res)
                 // // alert("注册成功");
                 // $.removeCookie('userid', {path: '/'})
+
                 $.cookie('username', res_json["username"], {expires: 7});
                 $.cookie('birthday', res_json["birthday"], {expires: 7});
                 $.cookie('userid', res_json["userid"], {expires: 7});
@@ -114,6 +116,7 @@ $("#submit_button").click(function () {
                 $.cookie('email', res_json["email"], {expires: 7});
                 $.cookie('nickname', res_json["nickname"], {expires: 7});
                 window.location.href = "index.html";
+
             } else {
                 // print(res.type)
                 // print(res['status'])
