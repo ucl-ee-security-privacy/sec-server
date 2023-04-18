@@ -16,7 +16,7 @@ public class AdminModifyController {
     private ProductMapper productMapper;
 
     //using Restful style url to transfer parameter
-    @GetMapping("admin_modify/{productid}/{changenum}")
+    @GetMapping("/admin_modify/{productid}/{changenum}")
     public JSONObject modifyProduct(@PathVariable("productid") int productId, @PathVariable("changenum") int changeNum) {
         Product product = productMapper.getProductById(productId);
         int productNum = product.getProductnum() + changeNum;
@@ -24,6 +24,12 @@ public class AdminModifyController {
         JSONObject object = new JSONObject();
         object.put("status", result);
         return object;
+    }
+
+    @GetMapping("/admin_modify/{productid}")
+    public Product getProductInfo(@PathVariable("productid") int productId){
+        Product product = productMapper.getProductById(productId);
+        return product;
     }
 
 
