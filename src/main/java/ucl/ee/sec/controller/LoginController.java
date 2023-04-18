@@ -12,7 +12,7 @@ import ucl.ee.sec.service.UserService;
 
 import java.util.List;
 
-@Controller
+@RestController
 @Slf4j
 public class LoginController {
 
@@ -20,8 +20,7 @@ public class LoginController {
     private UserService userService;
 
 
-    @GetMapping("/login")
-    @ResponseBody
+    @PostMapping ("/login")
     public JSONObject login(@RequestParam(value = "username", required = true) String username,
                             @RequestParam(value = "password", required = true) String password,
                             HttpSession session) {
@@ -59,7 +58,6 @@ public class LoginController {
 
 
     @GetMapping("/logout")
-    @ResponseBody
     public String logout(HttpSession session) {
         //注销session（在服务器里删除该session）
         session.invalidate();
