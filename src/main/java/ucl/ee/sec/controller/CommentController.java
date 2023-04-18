@@ -41,11 +41,9 @@ public class CommentController {
         if (session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
             Comment comment = new Comment();
-
             comment.setUserid(user.getUserid());
             comment.setContent(submitContent);
             comment.setPosttime(new Timestamp(System.currentTimeMillis()));
-
             commentMapper.insertComment(comment);
             return 1;
         }
