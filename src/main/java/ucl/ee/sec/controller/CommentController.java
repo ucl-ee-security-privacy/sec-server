@@ -36,8 +36,6 @@ public class CommentController {
     @ResponseBody
     public int submitComment(@RequestParam("content") String submitContent, HttpSession session) {
         //检查是否登录（session是否存在）
-        long nowTimestamp = System.currentTimeMillis(); // 获取当前时间的时间戳
-        System.out.println(nowTimestamp);
         if (session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
             Comment comment = new Comment();
