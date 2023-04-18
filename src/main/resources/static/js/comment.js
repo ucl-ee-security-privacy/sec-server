@@ -138,7 +138,7 @@ $("#submit_comment").click(function () {
                         // alert("yes"+typeof(d)+" "+d);
                         // var data_json = JSON.parse(data)
                         // alert(data[0]["id"])
-                        alert("goin")
+                        // alert("goin")
                         haveComment(commentView, data)
                     }
                 },
@@ -147,6 +147,5 @@ $("#submit_comment").click(function () {
                 }
             });
         }
-
     })
 });
