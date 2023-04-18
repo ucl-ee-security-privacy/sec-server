@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment {
-    private int id;
+    private int commentid;
     private int userid;
     private Timestamp posttime;
     private String content;
