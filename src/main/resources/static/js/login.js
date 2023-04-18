@@ -96,7 +96,7 @@ $(function () {
 
 $("#submit_button").click(function () {
     var domain = window.location.host;
-    alert("yes")
+    // alert("yes")
     document.getElementById("login-form").action = "http://"+domain+"/login"
     $("#myiframe").one("load", function () {
         var text = $(this).contents().find("body").text(); //获取到的是json的字符串
