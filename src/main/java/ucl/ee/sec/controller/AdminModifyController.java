@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ucl.ee.sec.entity.Product;
 import ucl.ee.sec.mapper.ProductMapper;
 
 @RestController
@@ -14,9 +15,11 @@ public class AdminModifyController {
     @Autowired
     private ProductMapper productMapper;
 
-
-    @GetMapping("admin_modify")
-    public JSONObject modifyProduct(@RequestParam("productid") int productId, @RequestParam("productnum") int productNum) {
+    //using Restful style url to transfer parameter
+    @GetMapping("admin_modify/{productid}/{changenum}")
+    public JSONObject modifyProduct(@PathVariable("productid") int productId, @PathVariable("changenum") int changeNum) {
+        Product product = productMapper.getProductById(productId);
+        int productNum = product.getProductnum() + changeNum;
         int result = productMapper.updateProductNumById(productId, productNum);
         JSONObject object = new JSONObject();
         object.put("status", result);
