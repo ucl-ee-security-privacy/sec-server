@@ -222,7 +222,7 @@
 <!--                        <button id="loginBtn" class="button">submit</button>-->
                         <input type="submit" id="submit_button" class="button" value="Login">
                     </div>
-
+                    <input name="${(_csrf.parameterName)!}" value="${(_csrf.token)!}" type="hidden">
                     <div class="clear"></div>
                     </fieldset>
                 </form>

@@ -350,11 +350,12 @@
                         <div class="loginButton">
                             <input type="submit" id = "submit_comment" class="loginButton" value="submit">
                         </div>
+                        <input name="${(_csrf.parameterName)!}" value="${(_csrf.token)!}" type="hidden">
                     </form>
                     <iframe  width=0 height=0 id="myiframe" name="myiframe"></iframe>
                     <hr/>
-                    <div id="comment_view">
-                    </div>
+                    <div id="comment_view"></div>
+                    <div id="content"></div>
                 </div>
             </div>
             <div class="rsingle span_1_of_single">
@@ -513,6 +514,7 @@
         </div>
         <div class="clear"></div>
     </div>
+</div>
 </div>
 <div class="footer">
     <div class="footer-top">
