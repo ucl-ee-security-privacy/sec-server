@@ -32,6 +32,9 @@ initTreeComment = function () {
     $.ajax({
         url: "comment/comment_list",
         type: 'GET',
+        beforeSend: function (xhr){
+            xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+        },
         success: function (data) {
             if (data.length === 0) {
                 // alert("no");
@@ -129,16 +132,17 @@ $("#submit_comment").click(function () {
             $.ajax({
                 url: "comment/comment_list",
                 type: 'GET',
+                beforeSend: function (xhr){
+                    xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+                },
                 success: function (data) {
                     if (data.length === 0) {
-                        // alert("no");
                         noComment(commentView)
                     } else {
                         // var d = toString(data)
                         // alert("yes"+typeof(d)+" "+d);
                         // var data_json = JSON.parse(data)
                         // alert(data[0]["id"])
-                        // alert("goin")
                         haveComment(commentView, data)
                     }
                 },

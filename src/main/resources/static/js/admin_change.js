@@ -27,6 +27,9 @@ showNum = function () {
     $.ajax({
         url: "admin_modify/0",
         type: 'GET',
+        beforeSend: function (xhr){
+            xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+        },
         success: function (data) {
             var num = data["productnum"]
             html_text = '<span>' + "Remain:  "+num + '<span/>'
@@ -51,7 +54,7 @@ document.getElementById('change').onclick = function () {
     // ajax提交用户名+密码到后台程序
     var xhr = new XMLHttpRequest();
     xhr.open("get", "admin_modify/0/"+num);
-    xhr.setRequestHeader("Content-type", "url");
+    xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
     xhr.send("admin_modify/0/"+num);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
