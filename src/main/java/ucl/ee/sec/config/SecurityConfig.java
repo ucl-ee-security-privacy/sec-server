@@ -69,7 +69,7 @@ public class SecurityConfig {
 //                .addFilterAfter( new XssFilter(), CsrfFilter.class)
                 .httpBasic()
                 .and()
-                .csrf().ignoringRequestMatchers("/login","/comment/submit","/admin_modify")
+                .csrf().ignoringRequestMatchers("/login","/comment/submit","/admin_modify","/admin_login")
 
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 
