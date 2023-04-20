@@ -25,10 +25,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
 //                .requestMatchers("/admin_modify.html","/admin_modify")
 //                .hasRole("ADMIN")
-                .anyRequest()
+                .requestMatchers("/**")
                 .permitAll()
-//                .anyRequest()
-//                .authenticated()
+                .anyRequest()
+                .authenticated()
 //                // 代表拦截所有请求，另外一种方式：（antMatchers("/**")）
 //
 //                .and()
@@ -63,7 +63,8 @@ public class SecurityConfig {
 //                .addFilterAfter( new XssFilter(), CsrfFilter.class)
                 .httpBasic()
                 .and()
-                .csrf()
+                .csrf().ignoringRequestMatchers("/login")
+
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 
         ;
@@ -88,25 +89,25 @@ public class SecurityConfig {
 
 
 
-    @Bean
-    public org.springframework.security.crypto.password.PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public org.springframework.security.crypto.password.PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        // remember the password that is printed out and use in the next step
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String psw= "password";
-        psw=encoder.encode(psw);
-        System.out.println("password:"+psw);
-
-        UserDetails user = User.withUsername("admin_ee")
-                .password(psw)
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }
+//    @Bean
+//    public InMemoryUserDetailsManager userDetailsService() {
+//        // remember the password that is printed out and use in the next step
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        String psw= "password";
+//        psw=encoder.encode(psw);
+//        System.out.println("password:"+psw);
+//
+//        UserDetails user = User.withUsername("admin_ee")
+//                .password(psw)
+//                .roles("ADMIN")
+//                .build();
+//        return new InMemoryUserDetailsManager(user);
+//    }
 
 
 //    @Bean
