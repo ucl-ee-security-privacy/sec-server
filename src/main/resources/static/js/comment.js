@@ -134,7 +134,6 @@ $("#submit_comment").click(function () {
                 url: "comment/comment_list",
                 type: 'GET',
                 beforeSend: function (xhr){
-
                     xhr.setRequestHeader("${(_csrf.parameterName)!}","${(_csrf.token)!}");
                 },
                 success: function (data) {

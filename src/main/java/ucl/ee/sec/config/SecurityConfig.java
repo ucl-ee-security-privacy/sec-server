@@ -27,8 +27,8 @@ public class SecurityConfig {
 //                .hasRole("ADMIN")
                 .requestMatchers("/**","/comment/**")
                 .permitAll()
-                .anyRequest()
-                .authenticated()
+//                .anyRequest()
+//                .authenticated()
 //                // 代表拦截所有请求，另外一种方式：（antMatchers("/**")）
 //
 //                .and()
@@ -62,12 +62,14 @@ public class SecurityConfig {
                     .xssProtection()
 
                 .and()
+                .contentSecurityPolicy("script-src 'self'")
+                .and()
                 .frameOptions().sameOrigin()
                 .and()
 //                .addFilterAfter( new XssFilter(), CsrfFilter.class)
                 .httpBasic()
                 .and()
-                .csrf().ignoringRequestMatchers("/login")
+                .csrf().ignoringRequestMatchers("/login","/comment/submit","/admin_modify")
 
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 
