@@ -13,7 +13,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
-
+import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
 
 @Configuration
@@ -25,7 +25,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
 //                .requestMatchers("/admin_modify.html","/admin_modify")
 //                .hasRole("ADMIN")
-                .requestMatchers("/**")
+                .requestMatchers("/**","/comment/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -58,7 +58,11 @@ public class SecurityConfig {
 //
 //                .migrateSession()
                 .and()
-                .headers().xssProtection().and()
+                .headers()
+                    .xssProtection()
+
+                .and()
+                .frameOptions().sameOrigin()
                 .and()
 //                .addFilterAfter( new XssFilter(), CsrfFilter.class)
                 .httpBasic()

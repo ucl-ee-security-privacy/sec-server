@@ -33,7 +33,8 @@ initTreeComment = function () {
         url: "comment/comment_list",
         type: 'GET',
         beforeSend: function (xhr){
-            xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+            var xsrfToken = Cookies.get('XSRF-TOKEN');
+            xhr.setRequestHeader("X-XSRF-TOKEN",xsrfToken);
         },
         success: function (data) {
             if (data.length === 0) {
@@ -133,7 +134,8 @@ $("#submit_comment").click(function () {
                 url: "comment/comment_list",
                 type: 'GET',
                 beforeSend: function (xhr){
-                    xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+                    var xsrfToken = Cookies.get('XSRF-TOKEN');
+                    xhr.setRequestHeader("X-XSRF-TOKEN",xsrfToken);
                 },
                 success: function (data) {
                     if (data.length === 0) {
