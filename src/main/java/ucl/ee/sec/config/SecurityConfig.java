@@ -1,31 +1,20 @@
 package ucl.ee.sec.config;
 
 
-
-import jakarta.servlet.Filter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
-import ucl.ee.sec.config.XssFilter;
 
-import javax.sql.DataSource;
+
 
 @Configuration
 @EnableWebSecurity
@@ -33,50 +22,45 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .requestMatchers("/admin_modify.html")
-
-                .hasRole("ADMIN")
-                .requestMatchers("/admin_modify")
-                .hasRole("ADMIN")
-                .requestMatchers("/**")
-
-                .permitAll()
-
+        http.authorizeHttpRequests()
+//                .requestMatchers("/admin_modify.html","/admin_modify")
+//                .hasRole("ADMIN")
                 .anyRequest()
-
-                .authenticated()
-                // 代表拦截所有请求，另外一种方式：（antMatchers("/**")）
-
-                .and()
-                .formLogin()
-                .loginPage("/login.html")
-                .and()
-                .logout()
-                .logoutUrl("/logout") //注销成功，重定向到该路径下
-                .logoutSuccessUrl("/index.html")
-
-//使得session失效
-
-                .invalidateHttpSession(true)
-
-//清除认证信息
-
-                .clearAuthentication(true)
-
-                .and()
-
-//进行会话管理
-
-                .sessionManagement()
-
-                .sessionFixation()
-
-                .migrateSession()
+                .permitAll()
+//                .anyRequest()
+//                .authenticated()
+//                // 代表拦截所有请求，另外一种方式：（antMatchers("/**")）
+//
+//                .and()
+//                .formLogin()
+//                .loginPage("/admin_login.html")
+//                .loginProcessingUrl("/admin_login")
+//                .and()
+//                .logout()
+//                .logoutUrl("/logout") //注销成功，重定向到该路径下
+//                .logoutSuccessUrl("/index.html")
+//
+////使得session失效
+//
+//                .invalidateHttpSession(true)
+//
+////清除认证信息
+//
+//                .clearAuthentication(true)
+//
+//                .and()
+//
+////进行会话管理
+//
+//                .sessionManagement()
+//
+//                .sessionFixation()
+//
+//                .migrateSession()
                 .and()
                 .headers().xssProtection().and()
                 .and()
-                .addFilterAfter((Filter) new XssFilter(), CsrfFilter.class)
+//                .addFilterAfter( new XssFilter(), CsrfFilter.class)
                 .httpBasic()
                 .and()
                 .csrf()
@@ -87,10 +71,10 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        // configure Web security...
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/index.html", "/login.html","/comment.html","/","/single.html");
+    }
 
     /**
      * 在Spring security 5 之后需要设置密码解析器，
@@ -109,19 +93,20 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public AuthenticationProvider authenticationProvider() {
-//
-//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//        authenticationProvider.setUserDetailsService(userDetailsService());
-//        authenticationProvider.setPasswordEncoder(passwordEncoder());
-//        return authenticationProvider;
-//    }
-//
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        //auth.userDetailsService(userDetailsService());
-//        auth.authenticationProvider(authenticationProvider());
-//    }
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+        // remember the password that is printed out and use in the next step
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String psw= "password";
+        psw=encoder.encode(psw);
+        System.out.println("password:"+psw);
+
+        UserDetails user = User.withUsername("admin_ee")
+                .password(psw)
+                .roles("ADMIN")
+                .build();
+        return new InMemoryUserDetailsManager(user);
+    }
 
 
 //    @Bean
